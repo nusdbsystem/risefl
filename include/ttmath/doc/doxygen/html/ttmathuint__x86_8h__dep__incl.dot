@@ -1,0 +1,18 @@
+digraph "ttmathuint_x86.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="ttmathuint_x86.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="template class UInt<uint> with assembler code for 32bit x86 processors"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ttmathuint.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathuint_8h.html",tooltip="template class UInt<uint>"];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ttmathint.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathint_8h.html",tooltip="template class Int<uint>"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ttmathbig.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathbig_8h.html",tooltip="A Class for representing floating point numbers."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="ttmath.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmath_8h.html",tooltip="Mathematics functions."];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="ttmathparser.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathparser_8h.html",tooltip="A mathematical parser."];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

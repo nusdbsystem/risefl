@@ -1,0 +1,23 @@
+digraph "ttmathmisc.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node2 [label="ttmathmisc.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="some helpful functions"];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ttmathuint.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathuint_8h.html",tooltip="template class UInt<uint>"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ttmathint.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathint_8h.html",tooltip="template class Int<uint>"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="ttmathbig.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathbig_8h.html",tooltip="A Class for representing floating point numbers."];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="ttmath.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmath_8h.html",tooltip="Mathematics functions."];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="ttmathparser.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathparser_8h.html",tooltip="A mathematical parser."];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="ttmathobjects.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ttmathobjects_8h.html",tooltip="Mathematic functions."];
+  Node8 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
