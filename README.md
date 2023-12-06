@@ -19,3 +19,4 @@ Manual:
 Test script with explanations:
 - [python/test.py](python/test.py) for a simulation of one iteration step of the system
 
+Simulation experiments with three datasets as in the paper https://arxiv.org/abs/2311.15310 uses [a fork of FLSim](https://github.com/zhuyizheng/FLSim).
