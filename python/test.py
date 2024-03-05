@@ -1,4 +1,4 @@
-import di_zkp_interface
+import risefl_interface
 import os
 import base64
 
@@ -40,11 +40,11 @@ random_bytes_str = base64.b64encode(random_bytes).decode('ascii')
 print("random_bytes_str = " + random_bytes_str)
 
 # initialize server
-server = di_zkp_interface.ServerInterface(
+server = risefl_interface.ServerInterface(
     num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
     weight_bits, random_normal_bit_shifter,
     num_norm_bound_samples, inner_prod_bound_bits, max_bound_sq_bits,
-    di_zkp_interface.CHECK_TYPE_L2NORM,
+    risefl_interface.CHECK_TYPE_L2NORM,
     False)
 
 server.initialize_from_seed(random_bytes_str)
@@ -54,22 +54,22 @@ print("server.dim = " + str(server.dim))
 print("server.weight_bits = " + str(server.weight_bits))
 
 # create public keys on the bulletin board and the corresponding private keys
-sign_pub_keys_vec = di_zkp_interface.VecSignPubKeys(num_clients + 1)
-sign_prv_keys_vec = di_zkp_interface.VecSignPrvKeys(num_clients + 1)
+sign_pub_keys_vec = risefl_interface.VecSignPubKeys(num_clients + 1)
+sign_prv_keys_vec = risefl_interface.VecSignPrvKeys(num_clients + 1)
 
 for i in range(num_clients+1):
-    sign_key_pair = di_zkp_interface.gen_sign_key_pair()
+    sign_key_pair = risefl_interface.gen_sign_key_pair()
     sign_pub_keys_vec[i] = sign_key_pair.first
     sign_prv_keys_vec[i] = sign_key_pair.second
 
 # initialize clients
 clients = []
 for i in range(num_clients+1):
-    client = di_zkp_interface.ClientInterface(
+    client = risefl_interface.ClientInterface(
         num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
         weight_bits, random_normal_bit_shifter,
         num_norm_bound_samples, inner_prod_bound_bits, max_bound_sq_bits,
-        di_zkp_interface.CHECK_TYPE_L2NORM,
+        risefl_interface.CHECK_TYPE_L2NORM,
         i, sign_pub_keys_vec, sign_prv_keys_vec[i])
     # print("client.client_id = " + str(client.client_id))
     clients.append(client)
@@ -92,7 +92,7 @@ weight_updates_collection = [[0, 0], [0, 1], [0.3, 0.4], [0.6, -0.9]]
 
 # step 1: clients send messages to server
 for i in client_ids:
-    weights = di_zkp_interface.VecFloat(weight_updates_collection[i])
+    weights = risefl_interface.VecFloat(weight_updates_collection[i])
     server.receive_1(clients[i].send_1(norm_bound,
                                        weights), i)
 

@@ -10,9 +10,9 @@
 #include <execution>
 #include <thread>
 #include <sodium.h>
-#include "../include/di_zkp_interface_client.h"
-#include "../include/di_zkp_interface_common.h"
-#include "../include/di_zkp_interface_server.h"
+#include "../include/risefl_interface_client.h"
+#include "../include/risefl_interface_common.h"
+#include "../include/risefl_interface_server.h"
 #include "simulate.h"
 
 void bench_batch_add() {

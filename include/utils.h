@@ -2,8 +2,8 @@
 // Created by yizheng on 10/4/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_UTILS_H
-#define DI_ZKP_CRYPTO_UTILS_H
+#ifndef RISEFL_CRYPTO_UTILS_H
+#define RISEFL_CRYPTO_UTILS_H
 
 #include <vector>
 #include <array>
@@ -10155,4 +10155,4 @@ const std::vector<float> gammas_from_num_samples = {
 11960.995215370568244944880905529584445492043847656
 };
 
-#endif //DI_ZKP_CRYPTO_UTILS_H
+#endif //RISEFL_CRYPTO_UTILS_H

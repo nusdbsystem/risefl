@@ -1,13 +1,13 @@
 # Client side manual
 
-need to `import di_zkp_interface`
+need to `import risefl_interface`
 
-The functionalities of a client is encapsulated in the python class `di_zkp_interface.ClientInterface`
+The functionalities of a client is encapsulated in the python class `risefl_interface.ClientInterface`
 
 A test run is in [test.py](../python/test.py).
 
 ## Creating a python class instance
-To construct an instance of the client interface, run `di_zkp_interface.ClientInterface(num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
+To construct an instance of the client interface, run `risefl_interface.ClientInterface(num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
 weight_bits, random_normal_bit_shifter,
 num_norm_bound_samples, inner_prod_bound_bits, max_bound_sq_bits,
 check_type, 
@@ -34,11 +34,11 @@ b_precomp)`, where
 
 [//]: # (- `protocol_type`: the type of protocol invoked)
 
-[//]: # (  - `di_zkp_interface.PROTOCOL_TYPE_PRIV`: the protocol in the paper)
+[//]: # (  - `risefl_interface.PROTOCOL_TYPE_PRIV`: the protocol in the paper)
 
-[//]: # (  - `di_zkp_interface.PROTOCOL_TYPE_NON_PRIV_INT`: clients send weight updates in clear text &#40;no ZKP involved&#41;. The probabilistic checking is the same. This is used in experiments that compare accuracies between probabilistic checking and strict checking. )
+[//]: # (  - `risefl_interface.PROTOCOL_TYPE_NON_PRIV_INT`: clients send weight updates in clear text &#40;no ZKP involved&#41;. The probabilistic checking is the same. This is used in experiments that compare accuracies between probabilistic checking and strict checking. )
 
-[//]: # (  - `di_zkp_interface.PROTOCOL_TYPE_NON_PRIV_FLOAT`:)
+[//]: # (  - `risefl_interface.PROTOCOL_TYPE_NON_PRIV_FLOAT`:)
 
 [//]: # (    clients send weight updates in clear text &#40;no ZKP involved&#41;, AND weight updates are not converted into fixed-point integers, AND in the probabilistic checking, random normal samples are not discretized. )
 ## Initialize FL training

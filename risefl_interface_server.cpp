@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <random>
 #include "immintrin.h"
-#include "include/di_zkp_interface_server.h"
-#include "include/di_zkp_interface_common.h"
+#include "include/risefl_interface_server.h"
+#include "include/risefl_interface_common.h"
 #include "include/shamir.h"
 #include "include/exception.h"
 #include "include/ristretto_vector.h"

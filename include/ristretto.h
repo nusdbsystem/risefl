@@ -5,8 +5,8 @@
 // Ristretto group operations.
 // wrapper on https://doc.libsodium.org/advanced/point-arithmetic/ristretto
 
-#ifndef DI_ZKP_CRYPTO_RISTRETTO_H
-#define DI_ZKP_CRYPTO_RISTRETTO_H
+#ifndef RISEFL_CRYPTO_RISTRETTO_H
+#define RISEFL_CRYPTO_RISTRETTO_H
 
 #include <array>
 #include <vector>
@@ -176,4 +176,4 @@ void rand_init(RistHashbytes &r);
 
 const RistElem c_elem_zero = scalar_mult_base(c_scal_zero);
 
-#endif //DI_ZKP_CRYPTO_RISTRETTO_H
+#endif //RISEFL_CRYPTO_RISTRETTO_H

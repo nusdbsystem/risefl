@@ -2,8 +2,8 @@
 // Created by yizheng on 7/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_RISTRETTO_VECTOR_H
-#define DI_ZKP_CRYPTO_RISTRETTO_VECTOR_H
+#ifndef RISEFL_CRYPTO_RISTRETTO_VECTOR_H
+#define RISEFL_CRYPTO_RISTRETTO_VECTOR_H
 
 #include <vector>
 #include <array>
@@ -104,4 +104,4 @@ RistScalMat operator+(const RistScalMat &A, const RistScalMat &B);
 RistScalMat operator-(const RistScalMat &A);
 
 
-#endif //DI_ZKP_CRYPTO_RISTRETTO_VECTOR_H
+#endif //RISEFL_CRYPTO_RISTRETTO_VECTOR_H

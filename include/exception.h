@@ -2,8 +2,8 @@
 // Created by yizheng on 29/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_EXCEPTION_H
-#define DI_ZKP_CRYPTO_EXCEPTION_H
+#ifndef RISEFL_CRYPTO_EXCEPTION_H
+#define RISEFL_CRYPTO_EXCEPTION_H
 
 #include <exception>
 
@@ -27,4 +27,4 @@ public:
     InvalidSign() = default;
 };
 
-#endif //DI_ZKP_CRYPTO_EXCEPTION_H
+#endif //RISEFL_CRYPTO_EXCEPTION_H

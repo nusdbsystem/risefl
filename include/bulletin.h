@@ -2,8 +2,8 @@
 // Created by yizheng on 14/6/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_BULLETIN_H
-#define DI_ZKP_CRYPTO_BULLETIN_H
+#ifndef RISEFL_CRYPTO_BULLETIN_H
+#define RISEFL_CRYPTO_BULLETIN_H
 
 #include <array>
 #include <vector>
@@ -31,4 +31,4 @@ std::vector<unsigned char> sign(const std::vector<unsigned char> &mes,
 std::vector<unsigned char> sign_open(const std::vector<unsigned char> &signed_mes,
                                      const SignPubKey &pub);
 
-#endif //DI_ZKP_CRYPTO_BULLETIN_H
+#endif //RISEFL_CRYPTO_BULLETIN_H

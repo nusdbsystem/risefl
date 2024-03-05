@@ -2,8 +2,8 @@
 // Created by yizheng on 15/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_COMMON_H
-#define DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_COMMON_H
+#ifndef RISEFL_CRYPTO_RISEFL_INTERFACE_COMMON_H
+#define RISEFL_CRYPTO_RISEFL_INTERFACE_COMMON_H
 
 #include <vector>
 #include <array>
@@ -474,4 +474,4 @@ void import_flags_start_from_1_from_bytestream(std::vector<int> &flags, std::vec
 
 void export_flags_start_from_1_to_bytestream(const std::vector<int> &flags, std::vector<unsigned char>::iterator &it);
 
-#endif //DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_COMMON_H
+#endif //RISEFL_CRYPTO_RISEFL_INTERFACE_COMMON_H

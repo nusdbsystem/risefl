@@ -2,8 +2,8 @@
 // Created by yizheng on 8/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_ZKP_H
-#define DI_ZKP_CRYPTO_ZKP_H
+#ifndef RISEFL_CRYPTO_ZKP_H
+#define RISEFL_CRYPTO_ZKP_H
 
 //#include <NTL/ZZ.h>
 //#include <NTL/ZZ_p.h>
@@ -551,4 +551,4 @@ bool b_verify_abs_val_range_power_two_agg_log(const RistP3AndBytes &h, const Ris
                                               int n, int m, // m values of range [-2^(n-1), 2^(n-1))
                                               const RangeProofPowerTwoP3Log &proof);
 
-#endif //DI_ZKP_CRYPTO_ZKP_H
+#endif //RISEFL_CRYPTO_ZKP_H

@@ -2,8 +2,8 @@
 // Created by yizheng on 4/4/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_MPZ_CONVERSION_H
-#define DI_ZKP_CRYPTO_MPZ_CONVERSION_H
+#ifndef RISEFL_CRYPTO_MPZ_CONVERSION_H
+#define RISEFL_CRYPTO_MPZ_CONVERSION_H
 
 #include <iostream>
 #include <chrono>
@@ -105,4 +105,4 @@ void rist_from_mpz_vec(RistScalVec &ss, const MpzVec &xx);
 void rist_from_mpz_mat(RistScalMat &ss, const MpzMat &xx);
 
 
-#endif //DI_ZKP_CRYPTO_MPZ_CONVERSION_H
+#endif //RISEFL_CRYPTO_MPZ_CONVERSION_H

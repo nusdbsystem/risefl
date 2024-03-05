@@ -1,4 +1,4 @@
-%module di_zkp_interface_client
+%module risefl_interface_client
 
 %include "std_vector.i"
 %include "std_string.i"
@@ -19,9 +19,9 @@ namespace std {
 #include "../include/rist_fast_computation.h"
 #include "../include/exception.h"
 #include "../include/utils.h"
-#include "../include/di_zkp_interface_common.h"
+#include "../include/risefl_interface_common.h"
 #include "../include/shamir.h"
-#include "../include/di_zkp_interface_client.h"
+#include "../include/risefl_interface_client.h"
 #include "../include/random_avx/mersenne-twister-avx2.h"
 #include "../include/bulletin.h"
 %}

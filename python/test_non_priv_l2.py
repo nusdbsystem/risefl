@@ -1,4 +1,4 @@
-import di_zkp_interface
+import risefl_interface
 import os
 import base64
 
@@ -16,7 +16,7 @@ random_normal_bit_shifter = 24
 # Requirement: norm_bound > 0
 #
 norm_bound = 2
-check_param = di_zkp_interface.CheckParamFloat(di_zkp_interface.CHECK_TYPE_L2NORM)
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_L2NORM)
 check_param.l2_param.bound = norm_bound
 
 num_norm_bound_samples = 1000
@@ -28,21 +28,21 @@ num_norm_bound_samples = 1000
 weight_updates_collection = [[0, 0], [0, 1], [0.3, 0.4], [0.6, -0.9]]
 
 # non-private protocols
-protocol_type = di_zkp_interface.PROTOCOL_TYPE_NON_PRIV_INT         # weight updates rounded to integers
-# protocol_type = di_zkp_interface.PROTOCOL_TYPE_NON_PRIV_FLOAT     # use float32 weight updates
+protocol_type = risefl_interface.PROTOCOL_TYPE_NON_PRIV_INT         # weight updates rounded to integers
+# protocol_type = risefl_interface.PROTOCOL_TYPE_NON_PRIV_FLOAT     # use float32 weight updates
 
-# if use di_zkp_interface.PROTOCOL_TYPE_NON_PRIV_INT, rounded weight updates to integers of bit-length weight_bits
+# if use risefl_interface.PROTOCOL_TYPE_NON_PRIV_INT, rounded weight updates to integers of bit-length weight_bits
 weight_bits = 24
 
 inner_prod_bound_bits = weight_bits + random_normal_bit_shifter + 4
 max_bound_sq_bits = 2 * inner_prod_bound_bits + 100
 
 # initialize server
-server = di_zkp_interface.ServerInterface(
+server = risefl_interface.ServerInterface(
     num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
     weight_bits, random_normal_bit_shifter,
     num_norm_bound_samples, inner_prod_bound_bits, max_bound_sq_bits,
-    di_zkp_interface.CHECK_TYPE_L2NORM,
+    risefl_interface.CHECK_TYPE_L2NORM,
     False, protocol_type)
 
 server.initialize_new_iteration(check_param)
@@ -53,12 +53,12 @@ print("server.weight_bits = " + str(server.weight_bits))
 # initialize clients
 clients = []
 for i in range(num_clients+1):
-    client = di_zkp_interface.ClientInterface(
+    client = risefl_interface.ClientInterface(
         num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
         weight_bits, random_normal_bit_shifter,
         num_norm_bound_samples, inner_prod_bound_bits, max_bound_sq_bits,
-        di_zkp_interface.CHECK_TYPE_L2NORM,
-        i, di_zkp_interface.VecSignPubKeys(), di_zkp_interface.SignPrvKey(),
+        risefl_interface.CHECK_TYPE_L2NORM,
+        i, risefl_interface.VecSignPubKeys(), risefl_interface.SignPrvKey(),
         False, protocol_type)
     # print("client.client_id = " + str(client.client_id))
     clients.append(client)
@@ -72,10 +72,10 @@ print(client_ids)
 # step 1: clients send messages to server
 for i in client_ids:
     # weights_i = weight_updates_collection[i]
-    # weights = di_zkp_interface.VecFloat(len(weights_i))
+    # weights = risefl_interface.VecFloat(len(weights_i))
     # for j in range(len(weights_i)):
     #     weights[j] = weights_i[j]
-    weights = di_zkp_interface.VecFloat(weight_updates_collection[i])
+    weights = risefl_interface.VecFloat(weight_updates_collection[i])
     # print(weights)
     # print(type(weights))
     server.receive_1(clients[i].send_1(check_param,

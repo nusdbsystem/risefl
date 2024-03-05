@@ -2,12 +2,12 @@
 // Created by yizheng on 15/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_SERVER_H
-#define DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_SERVER_H
+#ifndef RISEFL_CRYPTO_RISEFL_INTERFACE_SERVER_H
+#define RISEFL_CRYPTO_RISEFL_INTERFACE_SERVER_H
 
 #include <vector>
 #include <unordered_map>
-#include "di_zkp_interface_common.h"
+#include "risefl_interface_common.h"
 #include "utils.h"
 #include "base64.h"
 
@@ -267,4 +267,4 @@ long discrete_log(const RistElem &y,
                   const std::unordered_map<RistElem, long, RistElemHasher> &small_table,
                   int per_side_step_count);
 
-#endif //DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_SERVER_H
+#endif //RISEFL_CRYPTO_RISEFL_INTERFACE_SERVER_H

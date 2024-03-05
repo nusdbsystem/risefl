@@ -2,11 +2,11 @@
 // Created by yizheng on 15/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_CLIENT_H
-#define DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_CLIENT_H
+#ifndef RISEFL_CRYPTO_RISEFL_INTERFACE_CLIENT_H
+#define RISEFL_CRYPTO_RISEFL_INTERFACE_CLIENT_H
 
 #include <vector>
-#include "di_zkp_interface_common.h"
+#include "risefl_interface_common.h"
 #include "zkp.h"
 #include "exception.h"
 #include "shamir.h"
@@ -174,4 +174,4 @@ public:
 
 };
 
-#endif //DI_ZKP_CRYPTO_DI_ZKP_INTERFACE_CLIENT_H
+#endif //RISEFL_CRYPTO_RISEFL_INTERFACE_CLIENT_H

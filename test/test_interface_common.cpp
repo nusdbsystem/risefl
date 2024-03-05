@@ -14,7 +14,7 @@
 #include <thread>
 #include "../include/ristretto.h"
 #include "../include/ristretto_vector.h"
-#include "../include/di_zkp_interface_common.h"
+#include "../include/risefl_interface_common.h"
 
 
 using namespace std::chrono_literals;

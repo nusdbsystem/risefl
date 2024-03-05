@@ -2,8 +2,8 @@
 // Created by yizheng on 26/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_RIST_FAST_COMPUTATION_H
-#define DI_ZKP_CRYPTO_RIST_FAST_COMPUTATION_H
+#ifndef RISEFL_CRYPTO_RIST_FAST_COMPUTATION_H
+#define RISEFL_CRYPTO_RIST_FAST_COMPUTATION_H
 
 
 //#include "sodium/ed25519_ref10.h"
@@ -516,4 +516,4 @@ RistElemP3 sum_single_thread(const RistElemP3Vec &vv);
 
 void rand_init(RistP3AndBytes &h);
 
-#endif //DI_ZKP_CRYPTO_RIST_FAST_COMPUTATION_H
+#endif //RISEFL_CRYPTO_RIST_FAST_COMPUTATION_H

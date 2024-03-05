@@ -2,8 +2,8 @@
 // Created by yizheng on 8/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_SHAMIR_H
-#define DI_ZKP_CRYPTO_SHAMIR_H
+#ifndef RISEFL_CRYPTO_SHAMIR_H
+#define RISEFL_CRYPTO_SHAMIR_H
 
 //#include <NTL/ZZ.h>
 //#include <NTL/ZZ_p.h>
@@ -79,4 +79,4 @@ RistScal shamir_recover(const RistScalVec &shares, const std::vector<int> &indic
 
 RistScalVec shamir_recover(const RistScalMat &shares, const std::vector<int> &indices, int t);
 
-#endif //DI_ZKP_CRYPTO_SHAMIR_H
+#endif //RISEFL_CRYPTO_SHAMIR_H

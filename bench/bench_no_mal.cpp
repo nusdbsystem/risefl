@@ -10,9 +10,9 @@
 #include <execution>
 #include <thread>
 #include <sodium.h>
-#include "../include/di_zkp_interface_client.h"
-#include "../include/di_zkp_interface_common.h"
-#include "../include/di_zkp_interface_server.h"
+#include "../include/risefl_interface_client.h"
+#include "../include/risefl_interface_common.h"
+#include "../include/risefl_interface_server.h"
 #include "simulate.h"
 #include "../include/bulletin.h"
 
@@ -445,24 +445,24 @@ BenchResult bench_no_mal_2(int num_clients,
     for (int i = 0; i < dim / pieces; i++) {
         RistScalVec agg_blinds(num_clients);
         rand_init(agg_blinds);
-        std::vector<int> uu_int_agg(num_clients);
+        std::vector<long> uu_int_agg(num_clients);
         for (auto && w : uu_int_agg) {
-            w = static_cast<int>(d(gen));
+            w = static_cast<long>(d(gen));
         }
 
         RistP3VecAndBytes ped_agg(num_clients);
 
         auto ped_it_agg = ped_agg.bytes.begin();
 
-        if (b_precomp) {
-            pedersen_commit_p3_to_bytes_from_precomp(ped_it_agg, uu_int_agg, 16, server.predicate.hh_precomp[0], agg_blinds);
-            ped_agg.fill_elems();
-        }
-        else {
+        // if (b_precomp) {
+            // pedersen_commit_p3_to_bytes_from_precomp(ped_it_agg, uu_int_agg, 16, server.predicate.hh_precomp[0], agg_blinds);
+            // ped_agg.fill_elems();
+        // }
+        // else {
             for (int j = 0; j < num_clients; j++) {
                 pedersen_commit(ped_agg.elems[j], uu_int_agg[j], 16, server.predicate.hh[0], agg_blinds[j]);
             }
-        }
+        // }
 
         RistP3AndBytes sum_agg;
         RistScal sum_agg_blinds = sum(agg_blinds);

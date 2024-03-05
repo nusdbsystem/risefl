@@ -8,7 +8,7 @@
 #include <execution>
 #include <cmath>
 #include <random>
-#include "include/di_zkp_interface_common.h"
+#include "include/risefl_interface_common.h"
 #include "include/zkp_hash.h"
 #include "include/ristretto_vector.h"
 #include "include/mpz_conversion.h"

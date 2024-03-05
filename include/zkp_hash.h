@@ -2,8 +2,8 @@
 // Created by yizheng on 10/3/23.
 //
 
-#ifndef DI_ZKP_CRYPTO_ZKP_HASH_H
-#define DI_ZKP_CRYPTO_ZKP_HASH_H
+#ifndef RISEFL_CRYPTO_ZKP_HASH_H
+#define RISEFL_CRYPTO_ZKP_HASH_H
 
 #include <sodium.h>
 #include <NTL/ZZ.h>
@@ -52,4 +52,4 @@ RistElem rist_element_from_hash_from_bytes(const Ts &... ts) {
     return h;
 }
 
-#endif //DI_ZKP_CRYPTO_ZKP_HASH_H
+#endif //RISEFL_CRYPTO_ZKP_HASH_H
