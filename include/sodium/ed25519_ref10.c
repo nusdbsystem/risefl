@@ -818,8 +818,8 @@ ge25519_double_scalarmult_vartime(ge25519_p2 *r, const unsigned char *a,
 }
 
 static void
-slide_vartime_int(signed char *r, int a, int a_bits) {
-    int a_abs = (a >= 0) ? a : -a;
+slide_vartime_int(signed char *r, long a, int a_bits) {
+    long a_abs = (a >= 0) ? a : -a;
     int i;
     int b;
     int k;
