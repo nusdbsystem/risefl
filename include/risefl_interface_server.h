@@ -265,6 +265,6 @@ public:
 
 long discrete_log(const RistElem &y,
                   const std::unordered_map<RistElem, long, RistElemHasher> &small_table,
-                  int per_side_step_count);
+                  long per_side_step_count);
 
 #endif //RISEFL_CRYPTO_RISEFL_INTERFACE_SERVER_H

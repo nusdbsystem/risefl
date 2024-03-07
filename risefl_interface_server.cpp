@@ -170,7 +170,7 @@ std::size_t RistElemHasher::operator()(const RistElem &h) const {
 // from small table
 long discrete_log(const RistElem &y,
                   const std::unordered_map<RistElem, long, RistElemHasher> &small_table,
-                  int per_side_step_count) {
+                  long per_side_step_count) {
     long step = small_table.size();
     auto curr_pos = y;
     auto curr_neg = y;
@@ -186,7 +186,7 @@ long discrete_log(const RistElem &y,
     RistElemP3 curr_pos_p3, curr_neg_p3;
     p3_from_bytes(curr_pos_p3, curr_pos.element);
     p3_from_bytes(curr_neg_p3, curr_neg.element);
-    for (int i = 1; i <= per_side_step_count; i++) {
+    for (long i = 1; i <= per_side_step_count; i++) {
         p3_sub(curr_pos_p3, curr_pos_p3, gc_cached);
         bytes_from_p3(curr_pos.element, curr_pos_p3);
         val = small_table.find(curr_pos);
