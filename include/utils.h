@@ -51,11 +51,11 @@ int get_power_two_bound(const RistScal &bound);
 
 RistScalVec scalar_geometric_series(int n, const RistScal &p);
 
-long inner_prod(const std::vector<long> &aa, const std::vector<long> &bb);
+RistScal inner_prod(const std::vector<long> &aa, const std::vector<long> &bb);
 
-long inner_prod(const std::vector<int> &aa, const std::vector<long> &bb);
+RistScal inner_prod(const std::vector<int> &aa, const std::vector<long> &bb);
 
-long inner_prod(const std::vector<long> &aa, const std::vector<int> &bb);
+RistScal inner_prod(const std::vector<long> &aa, const std::vector<int> &bb);
 
 double inner_prod(const std::vector<float> &aa, const std::vector<float> &bb);
 

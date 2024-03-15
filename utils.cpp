@@ -62,33 +62,60 @@ RistScalVec scalar_geometric_series(int n, const RistScal &p) {
     return series;
 }
 
-// assume no overflow (does not check)
-long inner_prod(const std::vector<long> &aa, const std::vector<long> &bb) {
-    long ret = 0;
+RistScal inner_prod(const std::vector<long> &aa, const std::vector<long> &bb) {
+    // long ret = 0;
+    // assert(aa.size() == bb.size());
+    // for (int i = 0; i < aa.size(); i++) {
+    //     ret += aa[i] * bb[i];
+    // }
+    // return ret;
+
+
+    MyMpz ret_mpz;
     assert(aa.size() == bb.size());
     for (int i = 0; i < aa.size(); i++) {
-        ret += aa[i] * bb[i];
+        ret_mpz += MyMpz(aa[i]) * MyMpz(bb[i]);
     }
+    RistScal ret;
+    rist_from_mpz(ret, ret_mpz);
     return ret;
 }
 
-// assume no overflow (does not check)
-long inner_prod(const std::vector<int> &aa, const std::vector<long> &bb) {
-    long ret = 0;
+RistScal inner_prod(const std::vector<int> &aa, const std::vector<long> &bb) {
+    // long ret = 0;
+    // assert(aa.size() == bb.size());
+    // for (int i = 0; i < aa.size(); i++) {
+    //     ret += aa[i] * bb[i];
+    // }
+    // return ret;
+
+
+    MyMpz ret_mpz;
     assert(aa.size() == bb.size());
     for (int i = 0; i < aa.size(); i++) {
-        ret += aa[i] * bb[i];
+        ret_mpz += MyMpz(aa[i]) * MyMpz(bb[i]);
     }
+    RistScal ret;
+    rist_from_mpz(ret, ret_mpz);
     return ret;
 }
 
-// assume no overflow (does not check)
-long inner_prod(const std::vector<long> &aa, const std::vector<int> &bb) {
-    long ret = 0;
+RistScal inner_prod(const std::vector<long> &aa, const std::vector<int> &bb) {
+    // long ret = 0;
+    // assert(aa.size() == bb.size());
+    // for (int i = 0; i < aa.size(); i++) {
+    //     ret += aa[i] * bb[i];
+    // }
+    // return ret;
+
+
+    MyMpz ret_mpz;
     assert(aa.size() == bb.size());
     for (int i = 0; i < aa.size(); i++) {
-        ret += aa[i] * bb[i];
+        ret_mpz += MyMpz(aa[i]) * MyMpz(bb[i]);
     }
+    RistScal ret;
+    rist_from_mpz(ret, ret_mpz);
     return ret;
 }
 
