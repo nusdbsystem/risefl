@@ -21,7 +21,10 @@ b_precomp)`, where
 - `num_norm_bound_samples`: number of multidimensional normal samples used in proving the l2 norm bound
 - `inner_prod_bound_bits`: the number of bits of each inner product between the model update and discretized multidimensional normal sample. Recommended: use `weight_bits + random_normal_bit_shifter + 4`.
 - `max_bound_sq_bits`: the maximum number of bits of the sum of squares of inner products. Recommended: use `2 * (weight_bits + random_normal_bit_shifter) + 20`.
-- `check_type`: TODO
+- `check_type`: the type of the check method. Supported:
+  - `risefl_interface.CHECK_TYPE_L2NORM` (L2 norm check)
+  - `risefl_interface.CHECK_TYPE_SPHERE` (sphere check)
+  - `risefl_interface.CHECK_TYPE_COSINE_SIM` (cosine similarity check)
 - `b_precomp`: boolean value, see [Precomputation & multiple blinds per group element](precomp.md).
   - `True`: store precomputations of powers of group elements for faster commitment
   - `False`: don't store precomputations
@@ -42,7 +45,26 @@ Given a string `seed`, the class method
 ## Class methods to call within every iteration
 
 ### 1. Initializing a new iteration
-`initialize_new_iteration(norm_bound)` (no return value) sets the l2 norm bound of every client's weight updates at this round of iteration to `norm_bound`. It should be called exactly once at the start of the iteration. 
+`initialize_new_iteration(check_param)` (no return value) sets the check parameter at this round of iteration to `check_param`. It should be called exactly once at the start of the iteration. The input `check_param` can be generated in the following way according to the check type:
+- L2 norm:  given a `norm_bound` (float)
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_L2NORM)
+check_param.l2_param.bound = norm_bound
+```
+- Sphere: given a `norm_bound` (float) and a `center` (vector of floats),
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_SPHERE)
+check_param.sphere_param.bound = norm_bound
+check_param.sphere_param.center = risefl_interface.VecFloat(center)
+```
+- Cosine similarity: given a `norm_bound` (float), a `pivot` (vector of floats), a `cosine_bound` (float),
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_COSINE_SIM)
+check_param.cosine_param.bound = norm_bound
+check_param.cosine_param.pivot = risefl_interface.VecFloat(pivot)
+check_param.cosine_param.cosine_bound = cosine_bound
+```
+
 
 ### 2. Round 1: Process messages received from clients
 `receive_1(bytes_str, i)` (no return value) processes the string `bytes_str` which should be sent by client `i` in round 1. The string `bytes_str` should encode:

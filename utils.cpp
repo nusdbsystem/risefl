@@ -45,10 +45,10 @@ bool b_get_bit(const RistScal &p, int n) {
 
 int get_power_two_bound(const RistScal &bound) {
     int n = 255; // largest bit of bound is ignored. see the end of https://doc.libsodium.org/advanced/point-arithmetic/ristretto
+    assert (bound != c_scal_zero);
     while (!b_get_bit(bound, n - 1)) {
         n--;
     }
-    assert(n > 0);
     return n;
 }
 

@@ -2,6 +2,14 @@
 // Created by yizheng on 26/3/23.
 //
 
+// rist_fast_computation.h
+//
+// functions that dig deep into the C code of the libsodium library https://doc.libsodium.org/ in order to compute various operations effeciently, including:
+//
+//  adding a vector of Ristretto group elements, 
+//  computing a linear combination of a vector of Ristretto scalars and a vector of Ristretto group members
+//  converting Ristretto group elements into bytes and vice versa
+
 #ifndef RISEFL_CRYPTO_RIST_FAST_COMPUTATION_H
 #define RISEFL_CRYPTO_RIST_FAST_COMPUTATION_H
 

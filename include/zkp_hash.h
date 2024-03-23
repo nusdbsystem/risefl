@@ -2,6 +2,10 @@
 // Created by yizheng on 10/3/23.
 //
 
+// zkp_hash.h
+//
+// the hash functions used in ZKP proof generation and verification
+
 #ifndef RISEFL_CRYPTO_ZKP_HASH_H
 #define RISEFL_CRYPTO_ZKP_HASH_H
 
@@ -16,6 +20,7 @@
  * https://doc.libsodium.org/hashing/generic_hashing
 */
 
+// concatenate an unknown number of vectors into one
 template<typename... Ts>
 std::vector<unsigned char> concatenate(const Ts &... ts) {
     std::vector<unsigned char> bytes;
@@ -23,7 +28,7 @@ std::vector<unsigned char> concatenate(const Ts &... ts) {
     return bytes;
 }
 
-// returns hash from a key and a sequence of std::vector<unsigned char> of unknown length
+// returns hash from a key and an unknown number of vectors
 template<typename... Ts>
 RistHashbytes hash_from_bytes_with_key(const std::vector<unsigned char> &key, const Ts &... ts) {
     std::vector<unsigned char> bytes = concatenate(std::forward<const Ts>(ts)...);
@@ -34,17 +39,19 @@ RistHashbytes hash_from_bytes_with_key(const std::vector<unsigned char> &key, co
     return hash;
 }
 
-// returns hash from empty key and a sequence of std::vector<unsigned char> of unknown length
+// returns hash from empty key and an unknown number of vectors
 template<typename... Ts>
 RistHashbytes hash_from_bytes(const Ts &... ts) {
     return hash_from_bytes_with_key(std::vector<unsigned char>{}, std::forward<const Ts>(ts)...);
 }
 
+// hash an unknown number of vectors into a Ristretto scalar
 template<typename... Ts>
 RistScal rist_scalar_from_hash_from_bytes(const Ts &... ts) {
     return scalar_reduce(hash_from_bytes(std::forward<const Ts>(ts)...));
 }
 
+// hash an unknown number of vectors into a Ristretto group member
 template<typename... Ts>
 RistElem rist_element_from_hash_from_bytes(const Ts &... ts) {
     RistElem h;

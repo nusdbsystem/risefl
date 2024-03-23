@@ -35,7 +35,7 @@ std::vector<unsigned char> int_vec_to_bytes(const std::vector<int> &p) {
 int round_to_integer(double d, int bit_length) {
     return std::lround(d * (1 << bit_length));
 }
-//
+
 int extra_inner_prod(CHECK_TYPE c) {
     if (c == CHECK_TYPE::L2NORM || c == CHECK_TYPE::SPHERE) {
         return 0;
@@ -54,15 +54,6 @@ int extra_square(CHECK_TYPE c) {
     }
 }
 
-//TODO: remove
-//RistScal
-//CommonInterface::set_normalizing_factor_and_compute_bound_sq(float norm_bound, float standard_deviation_factor) {
-////    normalizing_factor = norm_bound;
-//    float bound_float = predicate.num_samples + standard_deviation_factor * sqrt(2 * predicate.num_samples);
-//    return set_normalizing_factor_and_compute_check_param_from_gamma(norm_bound, bound_float);
-////    int bit_shifter = 2 * (weight_bits - 1 + predicate.random_normal_bit_shifter);
-////    return ristscal_from_positive_float(bound_float, bit_shifter);
-//}
 
 CheckParam
 CommonInterface::set_normalizing_factor_and_compute_check_param_from_gamma(CheckParamFloat check_param_float) {

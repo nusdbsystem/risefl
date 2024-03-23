@@ -23,8 +23,9 @@ b_precomp)`, where
 - `inner_prod_bound_bits`: the number of bits of each inner product between the model update and discretized multidimensional normal sample. Recommended: use `weight_bits + random_normal_bit_shifter + 4`.
 - `max_bound_sq_bits`: the maximum number of bits of the sum of squares of inner products. Recommended: use `2 * (weight_bits + random_normal_bit_shifter) + 20`.
 - `check_type`: the type of the check method. Supported:
-  - TODO
-  - TODO
+  - `risefl_interface.CHECK_TYPE_L2NORM` (L2 norm check)
+  - `risefl_interface.CHECK_TYPE_SPHERE` (sphere check)
+  - `risefl_interface.CHECK_TYPE_COSINE_SIM` (cosine similarity check)
 - `client_id`: client ID. Note that client IDs start from 1. There is no client 0. 
 - `bul_pub_keys`: vector of public keys of all the clients on the bulletin board. See [Public Bulletin Board](bulletin.md).
 - `bul_prv_key`: this client's private key on the bulletin board.  See [Public Bulletin Board](bulletin.md).
@@ -48,11 +49,30 @@ Given a string `seed`, the class method
 ## Class methods to call within every iteration (Suppose `client_id` is `i`)
 
 ### 1. Round 1: Generate a message that should be sent to the server
-Given the l2 norm bound `norm_bound` and a vector of floats `u_float`, the class method `send_1(norm_bound, u_float)` returns a string that should be sent to the server in round 1. Internally, it also converts `u_float/norm_bound` (a vector of floats, all entries lie between -1 and 1) to fixed point integers. The return value encodes:
+Given the check parameter `check_param` and a vector of floats `u_float`, the class method `send_1(check_param, u_float)` returns a string that should be sent to the server in round 1. The input `check_param` can be generated in the following way according to the check type:
+- L2 norm:  given a `norm_bound` (float)
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_L2NORM)
+check_param.l2_param.bound = norm_bound
+```
+- Sphere: given a `norm_bound` (float) and a `center` (vector of floats),
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_SPHERE)
+check_param.sphere_param.bound = norm_bound
+check_param.sphere_param.center = risefl_interface.VecFloat(center)
+```
+- Cosine similarity: given a `norm_bound` (float), a `pivot` (vector of floats), a `cosine_bound` (float),
+```
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_COSINE_SIM)
+check_param.cosine_param.bound = norm_bound
+check_param.cosine_param.pivot = risefl_interface.VecFloat(pivot)
+check_param.cosine_param.cosine_bound = cosine_bound
+```
+The return value encodes:
 - the DHKE public key of client `i`, signed with `bul_prv_key`. (See [Public Bulletin Board](bulletin.md).)
 
 
-`send_1(norm_bound, u_float)` should be called exactly once.
+`send_1(check_param, u_float)` should be called exactly once.
 
 ### 2. Round 2: Process a message received from the server, and generate a message that should be sent back to the server
 `receive_and_send_2(bytes_str)` processes the string `bytes_str` which should be received from the server and returns a string that should be broadcast to all the clients in round 2. `bytes_str` should encode:

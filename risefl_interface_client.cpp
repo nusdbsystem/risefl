@@ -132,7 +132,7 @@ void ClientInterface::generate_proof() {
         }
     }
 
-    if (check_type == CHECK_TYPE::L2NORM || check_type == CHECK_TYPE::COSINE_SIM || check_type == CHECK_TYPE::ZENO) {
+    if (check_type == CHECK_TYPE::L2NORM || check_type == CHECK_TYPE::COSINE_SIM) {
         inner_prods[0] = inner_prod(weight_updates, top_row);
     }
     RistScalVec weight_updates_rist = rist_scal_vec_from_long_vec(weight_updates);
@@ -161,7 +161,7 @@ void ClientInterface::generate_proof() {
                     if (m + j <= predicate.num_samples) {
                         mt_avx2 rand_gen(seeds_at_a_m[m + j]);
                         rand_gen.rand_normal_avx2_shifted(temp_A[j].data(), dim, predicate.random_normal_bit_shifter);
-                        if (check_type == CHECK_TYPE::L2NORM || check_type == CHECK_TYPE::COSINE_SIM || check_type == CHECK_TYPE::ZENO) {
+                        if (check_type == CHECK_TYPE::L2NORM || check_type == CHECK_TYPE::COSINE_SIM) {
                             inner_prods[m + j] = RistScal(inner_prod(temp_A[j], weight_updates));
                         }
                         if (check_type == CHECK_TYPE::SPHERE) {
@@ -249,11 +249,6 @@ void ClientInterface::generate_proof() {
     RistScalVec inner_prods_to_sq = inner_prods_nonzero;
     auto blinds_on_single_to_sq = no_head(blinds_on_linear_comb_single);
 
-    if (check_type == CHECK_TYPE::ZENO) {
-        inner_prods_to_sq = no_tail(inner_prods_to_sq);
-        linear_comb_single_commitments_to_sq = proof.linear_comb_single_commitments.no_head_no_tail();
-        blinds_on_single_to_sq = no_tail(blinds_on_single_to_sq);
-    }
     proof.square_commitments.resize(num_sq);
     pedersen_commit(proof.square_commitments.elems, inner_prods_to_sq * inner_prods_to_sq,
                     predicate.square_key.elem,

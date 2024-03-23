@@ -2,6 +2,10 @@
 // Created by yizheng on 8/3/23.
 //
 
+// zkp.h
+//
+// ZKP toolkit 
+
 #ifndef RISEFL_CRYPTO_ZKP_H
 #define RISEFL_CRYPTO_ZKP_H
 
@@ -18,22 +22,27 @@
 #include "rist_fast_computation.h"
 #include "utils.h"
 
+// compute the pedersen commitment x * g + r * h, where g is the fixed group generator
 inline RistElem pedersen_commit(const RistScal &x, const RistElem &h, const RistScal &r) {
     return scalar_mult_base(x) + r * h;
 }
 
+// compute the pedersen commitment x * g + r * h, and write the result into y
 inline void pedersen_commit(RistElem &y, const RistScal &x, const RistElem &h, const RistScal &r) {
     add(y, scalar_mult_base(x), r * h);
 }
 
+// compute the pedersen commitment x * g, where g is the fixed group generator
 inline RistElem pedersen_zero_commit(const RistScal &x) {
     return scalar_mult_base(x);
 }
 
+// compute the pedersen commitment x * g, and write the result into y
 inline void pedersen_zero_commit(RistElem &y, const RistScal &x) {
     scalar_mult_base(y, x);
 }
 
+// for each i, compute the pedersen commitment xx[i] * g + r * hh[i], where g is the fixed group generator, and write the result into yy[i]
 inline void pedersen_commit(RistElemVec &yy, const RistScalVec &xx, const RistElemVec &hh, const RistScal &r) {
     std::for_each(
             std::execution::par_unseq,
@@ -46,6 +55,7 @@ inline void pedersen_commit(RistElemVec &yy, const RistScalVec &xx, const RistEl
     );
 }
 
+// for each i, compute the pedersen commitment xx[i] * g, where g is the fixed group generator, and write the result into yy[i]
 inline void pedersen_zero_commit(RistElemVec &yy, const RistScalVec &xx) {
     std::for_each(
             std::execution::par_unseq,
@@ -58,12 +68,14 @@ inline void pedersen_zero_commit(RistElemVec &yy, const RistScalVec &xx) {
     );
 }
 
+// for each i, compute the pedersen commitment xx[i] * g + x * hh[i], where g is the fixed group generator
 inline RistElemVec pedersen_commit(const RistScalVec &xx, const RistElemVec &hh, const RistScal &r) {
     RistElemVec yy(xx.size());
     pedersen_commit(yy, xx, hh, r);
     return yy;
 }
 
+// a PedersenWithZeroProof instance is a proof that the prover has knowledge of y0 = r * g and y1 = x * g + r * h, for some x and r.
 class PedersenWithZeroProof {
 public:
     RistScal c;
@@ -89,48 +101,19 @@ public:
     }
 };
 
-// produce a proof that the prover has knowledge of y0=g^blind_to_share and y1 = g^x h^blind_to_share.
+// produce a proof that the prover has knowledge of y0 = r * g and y1 = x * g + r * h, for some x and r.
 PedersenWithZeroProof
 generate_pedersen_with_zero_proof(const RistP3AndBytes &h, const RistP3AndBytes &y0, const RistP3AndBytes &y1,
                                   const RistScal &r, const RistScal &x);
 
-// verifies the proof given by the prover that y0=g^blind_to_share and y1 = g^x h^blind_to_share.
+// verifies the proof that the prover has knowledge of y0 = r * g and y1 = x * g + r * h, for some x and r.
 bool b_verify_pedersen_with_zero(const RistP3AndBytes &h, const RistP3AndBytes &y0, const RistP3AndBytes &y1,
                                  const PedersenWithZeroProof &proof);
 
-//// produce a proof that the prover has knowledge of y0=g^blind_to_share and y1 = g^x h^blind_to_share.
-//PedersenWithZeroProof
-//generate_pedersen_with_zero_proof(const RistElem &h, const RistElem &y0, const RistElem &y1,
-//                                  const RistScal &r, const RistScal &x);
-//
-//// verifies the proof given by the prover that y0=g^blind_to_share and y1 = g^x h^blind_to_share.
-//bool b_verify_pedersen_with_zero(const RistElem &h, const RistElem &y0, const RistElem &y1,
-//                                 const PedersenWithZeroProof &proof);
-//
-//
-//struct PedersenVecWithZeroProof {
-//    RistScal c;
-//    RistScal s;
-//    RistScalVec ss;
-//};
-//
-//PedersenVecWithZeroProof
-//generate_pedersen_vec_with_zero_proof(const RistElemVec &hh, const RistElem &y, const RistElemVec &yy,
-//                                      const RistScal &r, const RistScalVec &xx);
-//
-//bool b_verify_pedersen_vec_with_zero(const RistElemVec &hh, const RistElem &y, const RistElemVec &yy,
-//                                     const PedersenVecWithZeroProof &proof);
-//
-//PedersenVecWithZeroProof
-//generate_pedersen_vec_with_zero_proof(const RistElemP3Vec &hh, const RistElemP3 &y, const RistElemP3Vec &yy,
-//                                      const RistScal &r, const RistScalVec &xx);
-//
-//bool b_verify_pedersen_vec_with_zero(const RistElemP3Vec &hh, const RistElemP3 &y, const RistElemP3Vec &yy,
-//                                     const PedersenVecWithZeroProof &proof);
 
+// a PedersenBatchWithZeroProof instance is a proof that the prover has knowledge of zz[j] = rr[j] * g,  yy[i] = xx[i] * g + sum_j (rr[j] * hh[i][j]), and yy_prime[i] = xx[i] * g +  qq[i] * f, for some rr, xx, qq
 class PedersenBatchWithZeroProof {
 public:
-//    RistScal c;
     RistP3VecAndBytes uu;
     RistP3VecAndBytes tt;
     RistP3VecAndBytes tt_star;
@@ -175,6 +158,8 @@ public:
     }
 };
 
+
+// produce a proof that the prove has knowledge of zz[j] = rr[j] * g,  yy[i] = xx[i] * g + sum_j (rr[j] * hh[i][j]), and yy_prime[i] = xx[i] * g +  qq[i] * f, for some rr, xx, qq
 PedersenBatchWithZeroProof
 generate_pedersen_batch_with_zero_proof(const RistP3MatAndBytes &hh, const RistP3VecAndBytes &zz,
                                         const RistP3VecAndBytes &yy,
@@ -182,6 +167,7 @@ generate_pedersen_batch_with_zero_proof(const RistP3MatAndBytes &hh, const RistP
                                         const RistP3VecAndBytes &yy_prime,
                                         const RistScalVec &rr, const RistScalVec &xx, const RistScalVec &qq);
 
+// verify the proof that the prover has knowledge of zz[j] = rr[j] * g,  yy[i] = xx[i] * g + sum_j (rr[j] * hh[i][j]), and yy_prime[i] = xx[i] * g +  qq[i] * f, for some rr, xx, qq
 bool
 b_verify_pedersen_batch_with_zero(const RistP3MatAndBytes &hh, const RistP3VecAndBytes &zz, const RistP3VecAndBytes &yy,
                                   const RistP3AndBytes &f,
@@ -189,6 +175,7 @@ b_verify_pedersen_batch_with_zero(const RistP3MatAndBytes &hh, const RistP3VecAn
                                   const PedersenBatchWithZeroProof &proof);
 
 
+// a PedersenWithSquareProof instance is a proof that the prover has knowledge of y1 = x * g + r1 * h, y2 = x * x * g + r2 * h, for some x, r1, r2
 struct PedersenWithSquareProof {
     RistScal c;
     RistScal s1;
@@ -215,14 +202,17 @@ struct PedersenWithSquareProof {
 };
 
 
+// produce a proof that the prove has knowledge of y1 = x * g + r1 * h, y2 = x * x * g + r2 * h, for some x, r1, r2
 PedersenWithSquareProof
 generate_pedersen_with_square_proof(const RistP3AndBytes &h, const RistP3AndBytes &y1, const RistP3AndBytes &y2,
                                     const RistScal &x, const RistScal &r1, const RistScal &r2);
 
+// verify the proof that the prove has knowledge of y1 = x * g + r1 * h, y2 = x * x * g + r2 * h, for some x, r1, r2
 bool b_verify_pedersen_with_square(const RistP3AndBytes &h, const RistP3AndBytes &y1, const RistP3AndBytes &y2,
                                    const PedersenWithSquareProof &proof);
 
 
+// a PedersenWithSquareProof instance is a proof that the prover has knowledge of yy1[i] = xx[i] * g + rr1[i] * h, yy2[i] = xx[i] * xx[i] * g + rr2[i] * h, for some xx, rr1, rr2
 struct BatchPedersenWithSquareProof {
     RistP3VecAndBytes tt1;
     RistP3VecAndBytes tt2;
@@ -256,41 +246,29 @@ struct BatchPedersenWithSquareProof {
     }
 };
 
+// produce a proof that the prove has knowledge of yy1[i] = xx[i] * g + rr1[i] * h, yy2[i] = xx[i] * xx[i] * g + rr2[i] * h, for some xx, rr1, rr2
 BatchPedersenWithSquareProof
 generate_batch_pedersen_with_square_proof(const RistP3AndBytes &h, const RistP3VecAndBytes &yy1,
                                           const RistP3VecAndBytes &yy2,
                                           const RistScalVec &xx, const RistScalVec &rr1, const RistScalVec &rr2);
 
+// verify the proof that the prove has knowledge of yy1[i] = xx[i] * g + rr1[i] * h, yy2[i] = xx[i] * xx[i] * g + rr2[i] * h, for some xx, rr1, rr2
 bool
 b_verify_batch_pedersen_with_square(const RistP3AndBytes &h, const RistP3VecAndBytes &yy1, const RistP3VecAndBytes &yy2,
                                     const BatchPedersenWithSquareProof &proof);
 
-/* *********************
- * range proof tools
- * *********************/
 
-// a bulletproofs proof with length num_clients inner product protocol (not length log(num_clients))
+
+/* ************************/
+/*    range proof tools   */
+/* ************************/
+
+// a bulletproofs proof with length bound_bits inner product protocol (not length log(bound_bits))
 //  as length is not the primary concern
-//  not compressing num_clients to log(num_clients) saves both prover time and verifier measure_time
+//  not compressing bound_bits to log(bound_bits) saves both prover time and verifier measure_time
 // see "Bulletproofs: Short Proofs for Confidential Transactions and More"
 // https://eprint.iacr.org/2017/1066.pdf
-//struct RangeProofPowerTwo {
-//    RistElem A, S;
-//    RistElem T1, T2;
-//    RistScal tau_x, mu;
-//    RistScal t_hat;
-//    RistScalVec ll, rr;
-//};
-//
-//RangeProofPowerTwo generate_range_proof_power_two(const RistElem &h, const RistElem &V,
-//                                                  const RistElemVec &gg, const RistElemVec &hh,
-//                                                  int n,
-//                                                  const RistScal &gamma, const RistScal &v);
-//
-//bool b_verify_range_power_two(const RistElem &h, const RistElem &V,
-//                              const RistElemVec &gg, const RistElemVec &hh,
-//                              int n,
-//                              const RangeProofPowerTwo &proof);
+
 
 class RangeProofPowerTwoP3 {
 public:
@@ -359,22 +337,6 @@ bool b_verify_abs_val_range_power_two(const RistP3AndBytes &h, const RistP3AndBy
                                       int n,
                                       const RangeProofPowerTwoP3 &proof);
 
-//
-//struct RangeProof {
-//    RangeProofPowerTwo lower;
-//    RangeProofPowerTwo upper;
-//};
-
-//// produces a proof that a commitment of v, V = v * g + gamma * h, satisfies that v is in the interval [0, bound)
-//RangeProof generate_range_proof(const RistElem &h, const RistElem &V,
-//                                const RistElemVec &gg, const RistElemVec &hh,
-//                                const RistScal &bound,
-//                                const RistScal &gamma, const RistScal &v);
-//
-//bool b_verify_range(const RistElem &h, const RistElem &V,
-//                    const RistElemVec &gg, const RistElemVec &hh,
-//                    const RistScal &bound,
-//                    const RangeProof &proof);
 
 struct RangeProofP3 {
     RangeProofPowerTwoP3 lower;

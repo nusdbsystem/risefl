@@ -2,6 +2,10 @@
 // Created by yizheng on 10/4/23.
 //
 
+// utils.h
+//
+// various utilities
+
 #ifndef RISEFL_CRYPTO_UTILS_H
 #define RISEFL_CRYPTO_UTILS_H
 
@@ -13,6 +17,7 @@
 #include "mpz_conversion.h"
 #include "ttmath/ttmath/ttmath.h"
 
+// concatenate a vector of vectors into a vector 
 template<typename T>
 std::vector<T> concatenate_double_vec(const std::vector<std::vector<T>> &s) {
     std::vector<T> ret;
@@ -25,32 +30,44 @@ std::vector<T> concatenate_double_vec(const std::vector<std::vector<T>> &s) {
     return ret;
 }
 
+// copy all the entries in the interval [first, last) to the place starting from d_first, and move d_first to one place after the last copied entry
 template<class it1, class it2>
 void copy_and_shift_dst(it1 first, it1 last, it2 &d_first) {
     d_first = std::copy(first, last, d_first);
 }
 
+// copy all the entries into the interval [d_first, d_last) from the place starting from first, and move first to one place after the last entry copied from
 template<class it1, class it2>
 void copy_and_shift_src(it1 &first, it2 d_first, it2 d_last) {
     std::copy_n(first, d_last - d_first, d_first);
     first += (d_last - d_first);
 }
 
+// execute f and return the time (in seconds) taken in executing f
 double measure_time(std::function<void(void)> f);
 
+// execute f and add the time (in seconds) taken in executing f into *cost
+// if cost == nullptr, execute f only, don't measure time
 void measure_time_and_add_to_bench(std::function<void(void)> f, std::shared_ptr<double> cost = nullptr);
 
+// convert an int to sizeof(int) bytes(i.e. 4 bytes)
 std::vector<unsigned char> bytes_from_int(int c);
 
+// never defined or used
 std::vector<long> vec_mult_mat(const std::vector<int> &v,
 const std::vector<std::vector<int>> &A);
 
+// get the n-th bit of p
 bool b_get_bit(const RistScal &p, int n);
 
+// require: bound != 0
+// compute the least n such that bound < 2^n
 int get_power_two_bound(const RistScal &bound);
 
+// returns (1, p, p^2, ..., p^(n-1))
 RistScalVec scalar_geometric_series(int n, const RistScal &p);
 
+// inner prodduct functions
 RistScal inner_prod(const std::vector<long> &aa, const std::vector<long> &bb);
 
 RistScal inner_prod(const std::vector<int> &aa, const std::vector<long> &bb);
@@ -90,68 +107,93 @@ RistScalVec vec_block_mult_mat(const RistScalMat &aa, const RistScalVec &V_top, 
 // result: (m + 1)
 RistScalVec mat_mult_vec(const RistScalVec &V_top, const std::vector<std::vector<int>> &V, const std::vector<long> &aa);
 
-
+// the scalar 2^n
 RistScal power_of_two(int n);
 
+// the scalar floor(a * (2 ^ bit_shifter)) 
 RistScal ristscal_from_positive_float(float a, int bit_shifter);
 
+// the scalar (a * (2 ^ bit_shifter)), truncated to integer towards zero
 RistScal ristscal_from_float(float a, int bit_shifter);
 
+// convert r to integer (does not check bound of r)
 long int_from_ristscal(const RistScal &r);
 
+// never used
 float float_from_ristscal(const RistScal &r, int bit_shifter, int max_bit_bound);
 // assume: bit_shifter < max_bit_bound
 
 
+// (RISTSCALBYTES * 8 + 64)-bit integer (i.e. 320-bit)
 typedef ttmath::Int<TTMATH_BITS(RISTSCALBYTES * 8 + 64)> IntCombRistScal;
 
+// convert scalar r to a 320-bit integer
 IntCombRistScal rist_to_ttmath(const RistScal &r);
 
+// convert scalar r to a 320-bit integer, and write the result into n
 void rist_to_ttmath(IntCombRistScal &n, const RistScal &r);
 
+// conver every entry rr[i] to a 320-bit integer, and write the result into nn[i]
 void rist_to_ttmath(std::vector<IntCombRistScal> &nn, const RistScalVec &rr);
 
+// conver every entry R[i][j] to a 320-bit integer, and write the result into N[i][j]
 void rist_to_ttmath(std::vector<std::vector<IntCombRistScal>> &N, const RistScalMat &R);
 
+// convert the 320-bit integer n to a Ristretto scalar by moduling the order of the Ristretto group
 RistScal ttmath_to_rist(const IntCombRistScal &n);
 
+// convert the 320-bit integer n to a Ristretto scalar by moduling the order of the Ristretto group, and write the result into r
 void ttmath_to_rist(RistScal &r, const IntCombRistScal &n);
 
+// convert every intry nn[i] to a Ristretto scalar by moduling the order of the Ristretto group, and write the result into rr[i]
 void ttmath_to_rist(RistScalVec &rr, const std::vector<IntCombRistScal> &nn);
 
+// assumption: a >= 0 (not checked)
+// compute a * r as a 320-bit integer
 IntCombRistScal multiply_nonnegint(int a, const RistScal &r);
 
+// use seed_source to generate count many 32-bit seeds
 std::vector<std::uint32_t> generate_multiple_seeds(const RistHashbytes &seed_source, int count);
 
+// assume n >= 0 
+// compute the least b such that n < 2^b
 int get_bit_length(int n);
 
+// never used
 RistScalVec left_half_power_two(const RistScalVec &rr);
 
+// never used
 RistScalVec right_half_power_two(const RistScalVec &rr);
 
 // p=0: left block
 // p=1: right block
+// TODO
 RistScalVec block_mult_half(const RistScalVec &aa, const RistScalVec &rr, int p);
 
 RistScalVec block_mult(const RistScal &a, const RistScal &b, const RistScalVec &rr, int half_step);
 
+// r^n
 RistScal power(int n, const RistScal &r);
 
+// return the vector (rr[1], ..., rr[rr.size() - 1])
 template<typename T>
 std::vector<T> no_head(const std::vector<T> &rr) {
 return std::vector<T>(rr.begin() + 1, rr.end());
 }
 
+// return the vector (rr[0], ..., rr[rr.size() - 2])
 template<typename T>
 std::vector<T> no_tail(const std::vector<T> &rr) {
 return std::vector<T>(rr.begin(), rr.end() - 1);
 }
 
+// return the vector (rr[1], ..., rr[rr.size() - 2])
 template<typename T>
 std::vector<T> no_head_no_tail(const std::vector<T> &rr) {
 return std::vector<T>(rr.begin() + 1, rr.end() - 1);
 }
 
+// the k-th entry of this vector is the \gamma_{k, \epsilon} as in Algorithm 1 of the paper "Secure and Verifiable Data Collaboration with Low-Cost Zero-Knowledge Proofs", where \epsilon = 2^{-128}
 const std::vector<float> gammas_from_num_samples = {
 171.83608018226686774481199941722132869046942459842,
 177.44567822334600,
