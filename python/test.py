@@ -34,6 +34,10 @@ max_bound_sq_bits = 2 * (weight_bits + random_normal_bit_shifter) + 20
 # bound of l2-norm
 norm_bound = 2.0
 
+# initialize the check parameter
+check_param = risefl_interface.CheckParamFloat(risefl_interface.CHECK_TYPE_L2NORM)
+check_param.l2_param.bound = norm_bound
+
 # a random string used to generate independent group elements, to be used by both the server and clients
 random_bytes = os.urandom(64)
 random_bytes_str = base64.b64encode(random_bytes).decode('ascii')
@@ -48,7 +52,7 @@ server = risefl_interface.ServerInterface(
     False)
 
 server.initialize_from_seed(random_bytes_str)
-server.initialize_new_iteration(norm_bound)
+server.initialize_new_iteration(check_param)
 
 print("server.dim = " + str(server.dim))
 print("server.weight_bits = " + str(server.weight_bits))
@@ -93,7 +97,7 @@ weight_updates_collection = [[0, 0], [0, 1], [0.3, 0.4], [0.6, -0.9]]
 # step 1: clients send messages to server
 for i in client_ids:
     weights = risefl_interface.VecFloat(weight_updates_collection[i])
-    server.receive_1(clients[i].send_1(norm_bound,
+    server.receive_1(clients[i].send_1(check_param,
                                        weights), i)
 
 print("***** step 1 finished *****")
