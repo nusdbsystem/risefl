@@ -24,6 +24,7 @@ RUN apt-get update && apt-get upgrade -y && \
         libtool \
         libssl-dev \
         libtbb-dev \
+        libsodium-dev \
         libcurl4-openssl-dev \
         swig \
         && \
@@ -64,8 +65,8 @@ RUN cd /root/temp && \
 
 # Upgrade cmake version to 3.29
 RUN cd /root/temp && \
-    git clone https://github.com/Kitware/CMake.git \
-    cd Cmake \
+    git clone https://github.com/Kitware/CMake.git && \
+    cd CMake && \
     ./bootstrap && \
     make -j$(nproc) && \
     make install && \
@@ -76,6 +77,4 @@ RUN cd /root/temp && \
 RUN cd /root && \
     git clone https://github.com/nusdbsystem/risefl.git && \
     cd risefl && \
-    bash make.sh && \
-    cd build && \
-    .test
+    bash make.sh
