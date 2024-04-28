@@ -73,8 +73,14 @@ RUN cd /root/temp && \
     hash -r && \
     cmake --version
 
-# Download risefl and build \
+# Download risefl and build
 RUN cd /root && \
     git clone https://github.com/nusdbsystem/risefl.git && \
     cd risefl && \
     bash make.sh
+
+# Copy the built library to python packages path \
+# Here the python3.8 package path is /usr/local/lib/python3.8/dist-packages
+# Can use python3 -m site to check the correct sys.path
+RUN cd /root/risefl/build && \
+    cp -t /usr/local/lib/python3.8/dist-packages librisefl_crypto.a _risefl_interface.so risefl_interface.py
