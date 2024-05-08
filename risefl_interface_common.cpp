@@ -12,6 +12,8 @@
 #include "include/zkp_hash.h"
 #include "include/ristretto_vector.h"
 #include "include/mpz_conversion.h"
+#include "include/base64.h"
+
 
 std::vector<unsigned char> bytes_from_pub_vec(const std::vector<PublicKey> &p) {
     std::vector<unsigned char> b;
@@ -30,6 +32,46 @@ std::vector<unsigned char> int_vec_to_bytes(const std::vector<int> &p) {
         b.insert(b.end(), temp.begin(), temp.end());
     }
     return b;
+}
+
+std::string convert_sign_pub_key_to_string(const SignPubKey &pub_key) {
+    std::vector<unsigned char> key_bytes(pub_key.key.begin(), pub_key.key.end());
+    std::string key_str = base64_encode(key_bytes);
+    return key_str;
+}
+
+std::string convert_sign_prv_key_to_string(const SignPrvKey &prv_key) {
+    std::vector<unsigned char> key_bytes(prv_key.key.begin(), prv_key.key.end());
+    std::string key_str = base64_encode(key_bytes);
+    return key_str;
+}
+
+SignPubKey convert_string_to_sign_pub_key(const std::string &key_str) {
+    std::vector<unsigned char> key_bytes = base64_decode(key_str);
+    SignPubKey sign_pub_key;
+    // Ensure that the size of the vector matches the size of the array
+    if (key_bytes.size() == sign_pub_key.key.size()) {
+        // Copy the elements from the vector to the array
+        std::copy(key_bytes.begin(), key_bytes.end(), sign_pub_key.key.begin());
+    } else {
+        // Handle error: sizes don't match
+        throw std::invalid_argument("vector size does not match array size");
+    }
+    return sign_pub_key;
+}
+
+SignPrvKey convert_string_to_sign_prv_key(const std::string &key_str) {
+    std::vector<unsigned char> key_bytes = base64_decode(key_str);
+    SignPrvKey sign_prv_key;
+    // Ensure that the size of the vector matches the size of the array
+    if (key_bytes.size() == sign_prv_key.key.size()) {
+        // Copy the elements from the vector to the array
+        std::copy(key_bytes.begin(), key_bytes.end(), sign_prv_key.key.begin());
+    } else {
+        // Handle error: sizes don't match
+        throw std::invalid_argument("vector size does not match array size");
+    }
+    return sign_prv_key;
 }
 
 int round_to_integer(double d, int bit_length) {

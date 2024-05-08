@@ -570,4 +570,26 @@ void import_flags_start_from_1_from_bytestream(std::vector<int> &flags, std::vec
 // flags[0] never exported
 void export_flags_start_from_1_to_bytestream(const std::vector<int> &flags, std::vector<unsigned char>::iterator &it);
 
+/**
+* This method converts the SignPubKey object to base64 encoded string that
+* can be passed via SwigPyObject and used in python
+*/
+std::string convert_sign_pub_key_to_string(const SignPubKey &pub_key);
+
+/**
+* This method converts the SignPrvKey object to base64 encoded string that
+* can be passed via SwigPyObject and used in python
+*/
+std::string convert_sign_prv_key_to_string(const SignPrvKey &prv_key);
+
+/**
+* This method converts the base64 string passed from SwigPyObject to SignPubKey
+*/
+SignPubKey convert_string_to_sign_pub_key(const std::string &key_str);
+
+/**
+* This method converts the base64 string passed from SwigPyObject to SignPrvKey
+*/
+SignPrvKey convert_string_to_sign_prv_key(const std::string &key_str);
+
 #endif //RISEFL_CRYPTO_RISEFL_INTERFACE_COMMON_H

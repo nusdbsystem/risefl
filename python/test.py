@@ -59,12 +59,23 @@ print("server.weight_bits = " + str(server.weight_bits))
 
 # create public keys on the bulletin board and the corresponding private keys
 sign_pub_keys_vec = risefl_interface.VecSignPubKeys(num_clients + 1)
+print(f"sign_pub_keys_vec.type: {type(sign_pub_keys_vec)}")
 sign_prv_keys_vec = risefl_interface.VecSignPrvKeys(num_clients + 1)
 
 for i in range(num_clients+1):
     sign_key_pair = risefl_interface.gen_sign_key_pair()
     sign_pub_keys_vec[i] = sign_key_pair.first
     sign_prv_keys_vec[i] = sign_key_pair.second
+
+print(f"sign_pub_keys_vec[0]: {sign_pub_keys_vec[0]}")
+
+# this is to test the SignPubKey/SignPrvKey serialization
+bytes_str = risefl_interface.convert_sign_pub_key_to_string(sign_pub_keys_vec[0])
+print(bytes_str)
+sign_pub_key = risefl_interface.convert_string_to_sign_pub_key(bytes_str)
+bytes_str1 = risefl_interface.convert_sign_pub_key_to_string(sign_pub_key)
+print(bytes_str1)
+assert (bytes_str == bytes_str1)
 
 # initialize clients
 clients = []
