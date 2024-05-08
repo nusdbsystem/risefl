@@ -213,7 +213,6 @@ def decrypt(*args):
 CHECK_TYPE_L2NORM = _risefl_interface.CHECK_TYPE_L2NORM
 CHECK_TYPE_SPHERE = _risefl_interface.CHECK_TYPE_SPHERE
 CHECK_TYPE_COSINE_SIM = _risefl_interface.CHECK_TYPE_COSINE_SIM
-CHECK_TYPE_ZENO = _risefl_interface.CHECK_TYPE_ZENO
 class L2NormCheckParam(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -435,6 +434,18 @@ def import_flags_start_from_1_from_bytestream(flags, it):
 
 def export_flags_start_from_1_to_bytestream(flags, it):
     return _risefl_interface.export_flags_start_from_1_to_bytestream(flags, it)
+
+def convert_sign_pub_key_to_string(pub_key):
+    return _risefl_interface.convert_sign_pub_key_to_string(pub_key)
+
+def convert_sign_prv_key_to_string(prv_key):
+    return _risefl_interface.convert_sign_prv_key_to_string(prv_key)
+
+def convert_string_to_sign_pub_key(key_str):
+    return _risefl_interface.convert_string_to_sign_pub_key(key_str)
+
+def convert_string_to_sign_prv_key(key_str):
+    return _risefl_interface.convert_string_to_sign_prv_key(key_str)
 class ClientInterface(CommonInterface):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
