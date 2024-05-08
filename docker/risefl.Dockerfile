@@ -12,11 +12,9 @@ RUN apt-get update && apt-get upgrade -y && \
         python3-dev \
         python3-pip \
         libgmp3-dev \
-        git \
         pkg-config \
         wget \
         automake \
-        libtbb-dev \
         swig \
         gdb \
         git \
@@ -26,7 +24,6 @@ RUN apt-get update && apt-get upgrade -y && \
         libtbb-dev \
         libsodium-dev \
         libcurl4-openssl-dev \
-        swig \
         && \
         pip3 install requests && \
         apt-get clean && \
