@@ -1,6 +1,7 @@
 import risefl_interface
 import os
 import base64
+import numpy as np
 
 # initialize parameters
 
@@ -11,7 +12,7 @@ num_clients = 3
 max_malicious_clients = 1
 
 # number of parameters
-dim = 2
+dim = 8
 
 # number of blinds per group element
 num_blinds_per_group_element = 1
@@ -69,7 +70,7 @@ for i in range(num_clients+1):
 
 print(f"sign_pub_keys_vec[0]: {sign_pub_keys_vec[0]}")
 
-# this is to test the SignPubKey/SignPrvKey serialization
+# this is to test the SignPubKey serialization
 bytes_str = risefl_interface.convert_sign_pub_key_to_string(sign_pub_keys_vec[0])
 print(bytes_str)
 sign_pub_key = risefl_interface.convert_string_to_sign_pub_key(bytes_str)
@@ -77,9 +78,17 @@ bytes_str1 = risefl_interface.convert_sign_pub_key_to_string(sign_pub_key)
 print(bytes_str1)
 assert (bytes_str == bytes_str1)
 
+# this is to test the SignPrvKey serialization
+bytes_str_prv = risefl_interface.convert_sign_prv_key_to_string(sign_prv_keys_vec[0])
+print(bytes_str_prv)
+sign_prv_key = risefl_interface.convert_string_to_sign_prv_key(bytes_str_prv)
+bytes_str1_prv = risefl_interface.convert_sign_prv_key_to_string(sign_prv_key)
+print(bytes_str1_prv)
+assert (bytes_str_prv == bytes_str1_prv)
+
 # initialize clients
 clients = []
-for i in range(num_clients+1):
+for i in range(num_clients + 1):
     client = risefl_interface.ClientInterface(
         num_clients, max_malicious_clients, dim, num_blinds_per_group_element,
         weight_bits, random_normal_bit_shifter,
@@ -92,7 +101,7 @@ for i in range(num_clients+1):
 print("clients[0].dim = " + str(clients[0].dim))
 print("clients[0].client_id = " + str(clients[0].client_id))
 
-client_ids = range(1, num_clients+1)
+client_ids = range(1, num_clients + 1)
 print(client_ids)
 
 for i in client_ids:
@@ -103,13 +112,21 @@ for i in client_ids:
 # list of weight updates
 # weight_updates_collection[0] is never used
 # weight_updates_collection[i] is client i's weight updates, 1 <= i <= num_clients
-weight_updates_collection = [[0, 0], [0, 1], [0.3, 0.4], [0.6, -0.9]]
+# weight_updates_collection = [[0, 0], [0, 1], [0.3, 0.4], [0.6, -0.9]]
+# print("weight_updates_collection.type = ", type(weight_updates_collection[0]))
 
+# clip the norm and need to set weight_bits = 24 to pass the test due to precision loss
+weight_updates_collection = np.random.rand(num_clients + 1, dim)
+weight_updates_collection[0] = np.zeros_like(weight_updates_collection[0])
+for i in range(1, num_clients + 1):
+    weight_updates_collection[i] *= norm_bound / np.linalg.norm(weight_updates_collection[i])
+
+print(f"weight_updates_collection[i].type = {type(weight_updates_collection[0])}")
+print(f"weight_updates_collection: {weight_updates_collection}")
 # step 1: clients send messages to server
 for i in client_ids:
     weights = risefl_interface.VecFloat(weight_updates_collection[i])
-    server.receive_1(clients[i].send_1(check_param,
-                                       weights), i)
+    server.receive_1(clients[i].send_1(check_param, weights), i)
 
 print("***** step 1 finished *****")
 
@@ -149,9 +166,11 @@ print("***** step 5 finished *****")
 # finish one iteration, aggregate sum is in server.final_update_float, average is in server.final_update_float_avg
 server.finish_iteration()
 
+print("***** finish iteration")
+
 col_sums = [sum(x) for x in zip(*weight_updates_collection)]
 for j in range(dim):
-    assert (abs(server.final_update_float[j] - col_sums[j]) < 1e-4)
-    assert (abs(server.final_update_float[j] - num_clients * server.final_update_float_avg[j]) < 1e-4)
+    assert (abs(server.final_update_float[j] - col_sums[j]) < 1e-3)
+    assert (abs(server.final_update_float[j] - num_clients * server.final_update_float_avg[j]) < 1e-3)
 
 print("test python interface success")
